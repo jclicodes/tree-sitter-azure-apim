@@ -1,0 +1,22 @@
+{
+  "grammars": [
+    {
+      "name": "azure_apim",
+      "camelcase": "AzureApim",
+      "scope": "source.azure-apim",
+      "path": ".",
+      "file-types": ["policy.xml", "fragment.xml"],
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm",
+      "injection-regex": "^(apim|azure[-_]apim)$"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "Unlicense",
+    "description": "Azure API Management policy grammar (XML with C# policy expressions)",
+    "authors": [{ "name": "jcli" }],
+    "links": { "repository": "https://github.com/jclicodes/tree-sitter-azure-apim" }
+  },
+  "bindings": { "c": false, "go": false, "node": false, "python": false, "rust": false, "swift": false }
+}

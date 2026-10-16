@@ -1,0 +1,137 @@
+================================================================================
+Double quotes and generics inside a double-quoted attribute expression
+================================================================================
+
+<when condition="@(context.Variables.GetValueOrDefault<string>("a", "") == "b")" />
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (self_closing_tag
+      (tag_name)
+      (attribute
+        (attribute_name)
+        (attribute_value
+          (expression
+            (csharp_code)))))))
+
+================================================================================
+Brackets inside strings, chars and comments don't end the expression
+================================================================================
+
+<set-variable name="x" value="@{
+    var a = ")";
+    var b = '"';
+    var c = @"verbatim "") quote";
+    // a comment with )
+    /* and } here */
+    return $"{a}{b}{(c.Length > 0 ? "}" : ")")}{{literal}}";
+}" />
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (self_closing_tag
+      (tag_name)
+      (attribute
+        (attribute_name)
+        (attribute_value
+          (text)))
+      (attribute
+        (attribute_name)
+        (attribute_value
+          (expression
+            (csharp_code)))))))
+
+================================================================================
+Element content expressions with raw ampersands and less-than
+================================================================================
+
+<value>@(a < 3 && b != "</value>")</value>
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (expression
+      (csharp_code))
+    (end_tag
+      (tag_name))))
+
+================================================================================
+Empty expression
+================================================================================
+
+<value>@()</value>
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (start_tag
+      (tag_name))
+    (expression)
+    (end_tag
+      (tag_name))))
+
+================================================================================
+Named values, entities and literal text
+================================================================================
+
+<set-header name="x-{{env}}-id" exists-action="override">
+    <value>Bearer {{token}} &amp; more @ {braces}</value>
+</set-header>
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (start_tag
+      (tag_name)
+      (attribute
+        (attribute_name)
+        (attribute_value
+          (text)
+          (named_value)
+          (text)))
+      (attribute
+        (attribute_name)
+        (attribute_value
+          (text))))
+    (element
+      (start_tag
+        (tag_name))
+      (text)
+      (named_value)
+      (entity)
+      (text)
+      (end_tag
+        (tag_name)))
+    (end_tag
+      (tag_name))))
+
+================================================================================
+Single-quoted attribute expression
+================================================================================
+
+<set-variable name='x' value='@(context.Request.Headers.GetValueOrDefault("a", ""))' />
+
+--------------------------------------------------------------------------------
+
+(document
+  (element
+    (self_closing_tag
+      (tag_name)
+      (attribute
+        (attribute_name)
+        (attribute_value
+          (text)))
+      (attribute
+        (attribute_name)
+        (attribute_value
+          (expression
+            (csharp_code)))))))
